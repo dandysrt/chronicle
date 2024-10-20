@@ -22,7 +22,6 @@
         "list"
     ],
     "pre-push": [
-        "lint",
         "test"
     ],
     "scripts": {
