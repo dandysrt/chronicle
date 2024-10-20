@@ -2,7 +2,11 @@ import GarbageCollection from './garbage.collection';
 describe("GarbageCollection", function () {
 
     afterEach(function () {
-        GarbageCollection.registryMap = new Map<string, FinalizationRegistry<any>>([["$DEFAULT_KEY$", new FinalizationRegistry(() => {})]]);
+        for (const key of GarbageCollection.registryMap.keys()) {
+            if (key !== "$DEFAULT_KEY$") {
+                GarbageCollection.registryMap.delete(key);
+            }
+        }
     });
 
     it("always has a default protocol", function () {
