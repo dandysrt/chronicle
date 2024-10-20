@@ -50,6 +50,5 @@ export default class JsonFormatter extends AbstractFormatter<string[]> {
         !output[this.messageKey] && (delete output[this.messageKey]);
 
         return output;
-        // return [JSON.stringify(output, cycleGuard())];
     }
 }

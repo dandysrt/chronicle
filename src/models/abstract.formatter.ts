@@ -26,8 +26,4 @@ export abstract class AbstractFormatter<F> implements IFormatter {
     protected abstract _log(level: string): FormatterFunction<F>;
 
     abstract format(...args: any[]): any;
-
-    // format (...args: any[]): any {
-    //     return this.format(...args);
-    // };
 }
