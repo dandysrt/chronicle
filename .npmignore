@@ -1,0 +1,15 @@
+# tests
+coverage
+*jest.config.json
+*.spec.ts
+
+# linting
+.eslintrc*
+
+# package
+node_modules
+tsconfig.json
+*.tgz
+
+# git
+.gitignore

@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "declaration": true,
+        "outDir": "./dist",
+        "target": "ESNext",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "removeComments": true,
+        "resolveJsonModule": true,
+        "sourceMap": true,
+        "types": ["node", "jest"]
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "exclude": ["node_modules"]
+}
