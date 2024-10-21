@@ -23,7 +23,7 @@ export default class Logger implements ILogging {
         this.proxy = new proxy(logLevels);
         this.formatter = new formatter(logLevels);
         EnrichmentEngine.formatter = this.formatter as any;
-        this.enrichment = EnrichmentEngine.enrichmentFields(...enrichmentFields || undefined);
+        this.enrichment = EnrichmentEngine.enrichmentFields(...enrichmentFields);
 
         GarbageCollection.hint(this, this.enrichment.key);
 

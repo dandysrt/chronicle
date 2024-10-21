@@ -4,6 +4,8 @@ import Logger from "./logger";
 import AbstractProxy from '../models/abstract.proxy';
 import { ILoggerProxy } from "../models/proxy";
 import BufferedConsoleProxy from "../proxy/console.proxy.buffered";
+import { FormattingOptions, IFormatter } from "../models/formatter";
+import { AbstractFormatter } from '../models/abstract.formatter';
 
 describe("Logger", function () {
     beforeAll(function () {
@@ -63,10 +65,26 @@ describe("Logger", function () {
         );
     });
 
+    it("throws an error when formatter does not have an equivalent level", function () {
+        // arrange
+        // act
+        // assert
+        expect(() => new Logger(["info"], {formatter: InflexibleFormatter as any}))
+            .toThrow("InflexibleFormatter has no level info");
+    });
+3
+    it("throws an error when proxy does not have an equivalent level", function () {
+        // arrange
+        // act
+        // assert
+        expect(() => new Logger(["info"], {proxy: InflexibleProxy as any}))
+            .toThrow("InflexibleProxy has no level info");
+    });
+
     describe("emit", function () {
         it("does nothing if proxy does not have an 'emit' function", async function () {
             // arrange
-            const sut = new Logger(["info"], {proxy: NoOpProxy});
+            const sut = new Logger(["info"], {proxy: NoOpProxy as any});
 
             // act
             sut.info("test");
@@ -92,9 +110,9 @@ describe("Logger", function () {
     });
 
     describe("flush", function () {
-        it("throws an error if proxy does not have a 'flush' function", async function () {
+        it("does nothing if proxy does not have a 'flush' function", async function () {
             // arrange
-            const sut = new Logger(["info"], {proxy: NoOpProxy});
+            const sut = new Logger(["info"], {proxy: NoOpProxy as any});
 
             // act
             // assert
@@ -120,4 +138,19 @@ class NoOpProxy extends AbstractProxy implements ILoggerProxy {
     _log(level: string) {
         return (...args: any[]) => {}
     }
+}
+
+class InflexibleProxy implements ILoggerProxy{
+    constructor(logLevels: string[]){}
+}
+
+class InflexibleFormatter implements IFormatter {
+    formatter: any;
+    errorConfig: any;
+    formattingOptions: any;
+    useKeys: any;
+
+    constructor(logLevels: string[]){}
+
+    format(...args: any[]) {}
 }
