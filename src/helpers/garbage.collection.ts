@@ -2,6 +2,8 @@ import EnrichmentEngine from "../enrichment/enrichment.engine";
 
 export default class GarbageCollection {
     private static defaultKey = "$DEFAULT_KEY$";
+
+    /* istanbul ignore next */
     private static defaultCallback = (heldValue: any) => EnrichmentEngine.enrichmentMap.delete(heldValue);
     public static readonly registryMap = new Map<string, FinalizationRegistry<any>>([[this.defaultKey, new FinalizationRegistry(this.defaultCallback)]]);
 

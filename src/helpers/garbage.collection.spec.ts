@@ -1,3 +1,4 @@
+import EnrichmentEngine from '../enrichment/enrichment.engine';
 import GarbageCollection from './garbage.collection';
 describe("GarbageCollection", function () {
 
@@ -7,6 +8,7 @@ describe("GarbageCollection", function () {
                 GarbageCollection.registryMap.delete(key);
             }
         }
+        GarbageCollection.defaultProtocol = (heldValue: any) => EnrichmentEngine.enrichmentMap.delete(heldValue);
     });
 
     it("always has a default protocol", function () {
@@ -47,5 +49,9 @@ describe("GarbageCollection", function () {
         // act
         // assert
         expect(() => GarbageCollection.hint({}, "test", "test")).toThrow("No such registry with key 'test'");
+    });
+
+    it("allows specification of the default protocol", function () {
+        expect((GarbageCollection.defaultProtocol = (heldValue: any) => {})).not.toThrow();
     });
 });
