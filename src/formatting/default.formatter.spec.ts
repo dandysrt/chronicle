@@ -1,7 +1,7 @@
 import DefaultFormatter from "./default.formatter";
 
 describe("DefaultFormatter", function () {
-    it("does not format input", function () {
+    it("formats input", function () {
         // arrange
         const sut = new DefaultFormatter(["info"]);
         const error = new Error("test");
@@ -51,5 +51,24 @@ describe("DefaultFormatter", function () {
         // assert
         expect(unspecified).toMatchObject([/[0-9]{4}(\-[0-9]{2}){2}T([0-9]{2}\:){2}[0-9]{2}\.[0-9]{3}Z/, "Error test-error"]);
         expect(formatted).toMatchObject([/[0-9]{4}(\-[0-9]{2}){2}T([0-9]{2}\:){2}[0-9]{2}\.[0-9]{3}Z/, /TypeError: stack-traced error(\n.*)+\>a mistake/]);
+    });
+
+    it("format returns an array of formatted inputs", function () {
+// arrange
+        const sut = new DefaultFormatter([]);
+        const error = new Error("test");
+        const args = ["a", "b", {c: "d"}, error];
+
+        // act
+        const formatted = sut.format(...args);
+
+        // assert
+        expect(formatted).toMatchObject([
+            /[0-9]{4}(\-[0-9]{2}){2}T([0-9]{2}\:){2}[0-9]{2}\.[0-9]{3}Z/,
+            "a",
+            "b",
+            '{"c":"d"}',
+            "Error test"
+        ]);
     });
 });

@@ -18,25 +18,19 @@ export default class DelimitFormatter extends AbstractFormatter<string[]> {
 
     protected _log(_: string) {
         return (...args: any[]): string[] => {
-            return [this.format(...args).join()];
+            return [this.format(...args).join(this.delimiter)];
         }
     }
 
     format = (...args: any[]): string[] => {
         const output = [];
         this.setTimestamp(output);
+
         for (let arg of args) {
-            if (arg instanceof Error) {
-                arg = stringifyError(arg, this.errorConfig);
-            }
-
-            if (typeof arg === "object") {
-                arg = JSON.stringify(arg, cycleGuard());
-            }
-
-            output.push(arg, this.delimiter);
+            arg instanceof Error && (arg = stringifyError(arg, this.errorConfig))
+            typeof arg === "object" && (arg = JSON.stringify(arg, cycleGuard()));
+            output.push(arg);
         }
-        output.pop();
         
         return output;
     }

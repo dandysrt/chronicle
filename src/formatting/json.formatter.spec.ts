@@ -117,4 +117,19 @@ describe("JsonFormatter", function () {
             "@timestamp": /[0-9]{4}(\-[0-9]{2}){2}T([0-9]{2}\:){2}[0-9]{2}\.[0-9]{3}Z/
         });
     });
+
+    it("format returns an object of formatted inputs", function () {
+        // arrange
+        const sut = new JsonFormatter([]);
+
+        // act
+        const result = sut.format("a", "b", {c: "d"});
+
+        // assert
+        expect(result).toMatchObject({
+            message: "a b",
+            c: "d",
+            "@timestamp": /[0-9]{4}(\-[0-9]{2}){2}T([0-9]{2}\:){2}[0-9]{2}\.[0-9]{3}Z/
+        });
+    });
 });

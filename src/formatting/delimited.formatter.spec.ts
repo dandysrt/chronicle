@@ -80,4 +80,27 @@ describe("DelimitedFormatter", function () {
         expect(unspecified).toMatchObject([/[0-9]{4}(\-[0-9]{2}){2}T([0-9]{2}\:){2}[0-9]{2}\.[0-9]{3}Z Error test-error/]);
         expect(formatted).toMatchObject([/[0-9]{4}(\-[0-9]{2}){2}T([0-9]{2}\:){2}[0-9]{2}\.[0-9]{3}Z TypeError: stack-traced error(\n.*)+\>a mistake/]); 
     });
+
+    it("useKeys adds a key to the timestamp", function () {
+        // arrange
+        const sut = new DelimitFormatter(["info"]);
+        sut.useKeys = true;
+
+        // act
+        const formatted = sut.info("test");
+
+        // assert
+        expect(formatted).toMatchObject([/\@timestamp=[0-9]{4}(\-[0-9]{2}){2}T([0-9]{2}\:){2}[0-9]{2}\.[0-9]{3}Z test/]);
+    });
+
+    it("format returns an array of formatted inputs", function () {
+        // arrange
+        const sut = new DelimitFormatter([]);
+
+        // act
+        const formatted = sut.format("a", "b", {c: "d"});
+
+        // assert
+        expect(formatted).toMatchObject([/[0-9]{4}(\-[0-9]{2}){2}T([0-9]{2}\:){2}[0-9]{2}\.[0-9]{3}Z/, "a", "b", '{"c":"d"}']);
+    });
 });
